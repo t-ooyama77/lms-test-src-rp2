@@ -1,6 +1,7 @@
 package jp.co.sss.lms.ct.f01_login1;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 
@@ -41,9 +42,17 @@ public class Case02 {
 	@Test
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
-	void test01() {
+	void test01() throws Exception {
 		//トップページにアクセス
 		webDriver.get("http://localhost:8080/lms");
+
+		//正しい表示画面に遷移しているかを確認
+		WebElement login = webDriver.findElement(By.tagName("h2"));
+		assertEquals("ログイン", login.getText());
+
+		//画面をキャプチャして保存する
+		File file = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(file, new File("evidence/Case02\\Case02_01.png"));
 	}
 
 	@Test
@@ -64,9 +73,13 @@ public class Case02 {
 		WebElement loginButton = webDriver.findElement(By.cssSelector("input[type='submit']"));
 		loginButton.click();
 
+		//正しい表示画面に遷移しているかを確認
+		WebElement loginError = webDriver.findElement(By.className("help-inline"));
+		assertEquals("* ログインに失敗しました。", loginError.getText());
+
 		//画面をキャプチャして保存する
 		File file = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(file, new File("evidence\\test02.png"));
+		FileUtils.copyFile(file, new File("evidence/Case02\\Case02_02.png"));
 	}
 
 }
