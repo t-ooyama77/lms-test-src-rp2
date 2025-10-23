@@ -128,11 +128,11 @@ public class Case06 {
 		keyword.clear(); //これまでの入力内容を消去する
 		keyword.sendKeys("キャンセル");
 
-		//「検索」ボタンを押下する
-		WebElement search = webDriver.findElement(By.cssSelector("input[type='submit']"));
-		search.click();
+		//「カテゴリー検索」の下に表示された【研修関係】のリンクをクリックする
+		WebElement categorySearch = webDriver.findElement(By.linkText("【研修関係】"));
+		categorySearch.click();
 
-		//「検索」ボタンを押下後に検索結果の質問が表示されているかを確認
+		//「カテゴリー検索」リンクを押下後に検索結果の質問が表示されているかを確認
 		WebElement showQuestion = webDriver.findElement(By.className("text-primary"));
 		assertEquals("Q.", showQuestion.getText());
 
