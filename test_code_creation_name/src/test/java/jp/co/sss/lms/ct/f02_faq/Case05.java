@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
-
+import org.openqa.selenium.WebElement;
 
 /**
  * 結合テスト よくある質問機能
@@ -38,41 +38,127 @@ public class Case05 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		//トップページに遷移
+		goTo("http://localhost:8080/lms");
+
+		//正しい表示画面に遷移しているかを確認
+		WebElement login = webDriver.findElement(By.tagName("h2"));
+		assertEquals("ログイン", login.getText());
+
+		//画面をキャプチャして保存する
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		//ログインIDを入力する
+		WebElement loginId = webDriver.findElement(By.name("loginId"));
+		loginId.clear(); // 既存の値を消す（任意）
+		loginId.sendKeys("StudentAA02"); //初回ログイン済みのログインID
+
+		//ログインIDを入力する
+		WebElement password = webDriver.findElement(By.name("password"));
+		password.clear(); // 既存の値を消す（任意）
+		password.sendKeys("studentA02"); //初回ログイン済みのpassword
+
+		//ログインボタンを押下
+		WebElement loginButton = webDriver.findElement(By.cssSelector("input[type='submit']"));
+		loginButton.click();
+
+		//正しい表示画面に遷移しているかを確認
+		WebElement loginSuccess = webDriver.findElement(By.tagName("small"));
+		assertEquals("ようこそ受講生ＡＡ２さん", loginSuccess.getText());
+
+		//画面をキャプチャして保存する
+		getEvidence(new Object() {
+		});
 	}
-	
+
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		//「機能」リンクをクリックしてドロップダウンメニューを表示
+		WebElement function = webDriver.findElement(By.linkText("機能"));
+		function.click();
+
+		//表示されたドロップダウンメニューから「ヘルプ」リンクをクリック
+		WebElement helpLink = webDriver.findElement(By.linkText("ヘルプ"));
+		helpLink.click();
+
+		//クリック後に「ヘルプ画面」に遷移しているかを確認
+		WebElement transitionHelp = webDriver.findElement(By.tagName("h2"));
+		assertEquals("ヘルプ", transitionHelp.getText());
+
+		//画面をキャプチャして保存する
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+		//「よくある質問」リンクをクリック
+		WebElement FAQ = webDriver.findElement(By.linkText("よくある質問"));
+		FAQ.click();
+
+		//「よくある質問画面」は新しいタブで開くため、タブを移動する
+		Object[] windowHandles = webDriver.getWindowHandles().toArray();//ブラウザで開いているタブの情報を取得
+		webDriver.switchTo().window((String) windowHandles[1]);//新しいタブに切り替えている
+
+		//クリック後に「よくある質問画面」に遷移しているかを確認
+		WebElement transitionFAQ = webDriver.findElement(By.tagName("h2"));
+		assertEquals("よくある質問", transitionFAQ.getText());
+
+		//画面をキャプチャして保存する
+		getEvidence(new Object() {
+		});
 	}
+
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 キーワード検索で該当キーワードを含む検索結果だけ表示")
 	void test05() {
-		// TODO ここに追加
+		//キーワード検索の入力フォームにキーワードを（キャンセル）を入力する
+		WebElement keyword = webDriver.findElement(By.name("keyword"));
+		keyword.clear(); //これまでの入力内容を消去する
+		keyword.sendKeys("キャンセル");
+
+		//「検索」ボタンを押下する
+		WebElement search = webDriver.findElement(By.cssSelector("input[type='submit']"));
+		search.click();
+
+		//「検索」ボタンを押下後に検索結果の質問が表示されているかを確認
+		WebElement showQuestion = webDriver.findElement(By.className("text-primary"));
+		assertEquals("Q.", showQuestion.getText());
+
+		//検索結果が見えるように画面を下にスクロールする
+		scrollTo("165");
+
+		//画面をキャプチャして保存する
+		getEvidence(new Object() {
+		});
 	}
-	
+
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 「クリア」ボタン押下で入力したキーワードを消去")
 	void test06() {
-		// TODO ここに追加
+		//「クリア」ボタンを押下する
+		WebElement clear = webDriver.findElement(By.cssSelector("input[type='button']"));
+		clear.click();
+
+		//「クリア」ボタンを押下後にキーワード入力フォームが空になっているのを確認
+		WebElement keyword = webDriver.findElement(By.name("keyword"));
+		assertEquals("", keyword.getText());
+
+		//画面をキャプチャして保存する
+		getEvidence(new Object() {
+		});
 	}
 
 }
