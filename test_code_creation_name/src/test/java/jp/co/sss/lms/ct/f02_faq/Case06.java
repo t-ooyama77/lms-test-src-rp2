@@ -123,11 +123,6 @@ public class Case06 {
 	@Order(5)
 	@DisplayName("テスト05 カテゴリ検索で該当カテゴリの検索結果だけ表示")
 	void test05() {
-		//キーワード検索の入力フォームにキーワードを（キャンセル）を入力する
-		WebElement keyword = webDriver.findElement(By.name("keyword"));
-		keyword.clear(); //これまでの入力内容を消去する
-		keyword.sendKeys("キャンセル");
-
 		//「カテゴリー検索」の下に表示された【研修関係】のリンクをクリックする
 		WebElement categorySearch = webDriver.findElement(By.linkText("【研修関係】"));
 		categorySearch.click();
