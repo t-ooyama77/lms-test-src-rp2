@@ -104,9 +104,22 @@ public class Case09 {
 	void test04() {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
-		//週報の「詳細」ボタンを押下する(上から4番目の「修正する」ボタンを押す)
-		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='修正する']"));
-		detailButtons.get(3).click();
+
+		//テーブルの全行を取得
+		WebElement table = webDriver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+		//レポート名が「週報」の「修正する」ボタンを押下する
+		for (WebElement row : rows) {
+			WebElement exam = row.findElement(By.xpath("//td[text()='週報【デモ】']"));
+			String examText = exam.getText().trim();
+
+			if (examText.equals("週報【デモ】")) {
+				WebElement detailButton = row.findElement(By.xpath("//input[@value='修正する']"));
+				detailButton.click();
+				break;
+			}
+		}
 
 		//画面をキャプチャして保存する
 		getEvidence(new Object() {
@@ -147,9 +160,21 @@ public class Case09 {
 	void test06() {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
-		//週報の「詳細」ボタンを押下する(上から4番目の「修正する」ボタンを押す)
-		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='修正する']"));
-		detailButtons.get(3).click();
+
+		//テーブルの全行を取得
+		WebElement table = webDriver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		//レポート名が「週報」の「修正する」ボタンを押下する
+		for (WebElement row : rows) {
+			WebElement exam = row.findElement(By.xpath("//td[text()='週報【デモ】']"));
+			String examText = exam.getText().trim();
+
+			if (examText.equals("週報【デモ】")) {
+				WebElement detailButton = row.findElement(By.xpath("//input[@value='修正する']"));
+				detailButton.click();
+				break;
+			}
+		}
 
 		//「理解度」の項目のドロップダウンリストを取得する
 		WebElement levelOfUnderstanding = webDriver.findElement(By.name("intFieldValueArray[0]"));
@@ -184,9 +209,21 @@ public class Case09 {
 	void test07() {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
-		//週報の「詳細」ボタンを押下する(上から4番目の「修正する」ボタンを押す)
-		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='修正する']"));
-		detailButtons.get(3).click();
+		//テーブルの全行を取得
+		WebElement table = webDriver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+		//週報の「詳細」ボタンを押下する
+		for (WebElement row : rows) {
+			WebElement exam = row.findElement(By.xpath("//td[text()='週報【デモ】']"));
+			String examText = exam.getText().trim();
+
+			if (examText.equals("週報【デモ】")) {
+				WebElement detailButton = row.findElement(By.xpath("//input[@value='修正する']"));
+				detailButton.click();
+				break;
+			}
+		}
 
 		//「目標の達成度」の項目に数値以外を入力する
 		WebElement goalAttainmentLevel = webDriver.findElement(By.name("contentArray[0]"));
@@ -201,7 +238,8 @@ public class Case09 {
 		reportSubmit.click();
 
 		//表示されたエラー情報が正しいかを確認
-		//エラー情報が出ていない
+		WebElement errorMessage = webDriver.findElement(By.xpath("//p/span[text()='* 目標の達成度は半角数字で入力してください。']"));
+		assertEquals("* 目標の達成度は半角数字で入力してください。", errorMessage.getText());
 
 		//画面をキャプチャして保存する
 		getEvidence(new Object() {
@@ -218,9 +256,22 @@ public class Case09 {
 	void test08() {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
-		//週報の「詳細」ボタンを押下する(上から4番目の「修正する」ボタンを押す)
-		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='修正する']"));
-		detailButtons.get(3).click();
+
+		//テーブルの全行を取得
+		WebElement table = webDriver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+		//週報の「詳細」ボタンを押下する
+		for (WebElement row : rows) {
+			WebElement exam = row.findElement(By.xpath("//td[text()='週報【デモ】']"));
+			String examText = exam.getText().trim();
+
+			if (examText.equals("週報【デモ】")) {
+				WebElement detailButton = row.findElement(By.xpath("//input[@value='修正する']"));
+				detailButton.click();
+				break;
+			}
+		}
 
 		//「目標の達成度」の項目に1～10の範囲以外の数値を入力する
 		WebElement goalAttainmentLevel = webDriver.findElement(By.name("contentArray[0]"));
@@ -235,7 +286,9 @@ public class Case09 {
 		reportSubmit.click();
 
 		//表示されたエラー情報が正しいかを確認
-		//エラー情報が出ていない
+		WebElement errorMessage = webDriver
+				.findElement(By.xpath("//p/span[text()='* 目標の達成度は、半角数字で、1～10の範囲内で入力してください。']"));
+		assertEquals("* 目標の達成度は、半角数字で、1～10の範囲内で入力してください。", errorMessage.getText());
 
 		//画面をキャプチャして保存する
 		getEvidence(new Object() {
@@ -252,10 +305,26 @@ public class Case09 {
 	void test09() {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
-		//週報の「詳細」ボタンを押下する(上から4番目の「修正する」ボタンを押す)
-		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='修正する']"));
-		detailButtons.get(3).click();
 
+		//テーブルの全行を取得
+		WebElement table = webDriver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+		//週報の「詳細」ボタンを押下する
+		for (WebElement row : rows) {
+			WebElement exam = row.findElement(By.xpath("//td[text()='週報【デモ】']"));
+			String examText = exam.getText().trim();
+
+			if (examText.equals("週報【デモ】")) {
+				WebElement detailButton = row.findElement(By.xpath("//input[@value='修正する']"));
+				detailButton.click();
+				break;
+			}
+		}
+
+		//「目標の達成度」の項目を未入力にする
+		WebElement goalAttainmentLevel = webDriver.findElement(By.name("contentArray[0]"));
+		goalAttainmentLevel.clear();
 		//「所感」の項目を未入力にする
 		WebElement impression = webDriver.findElement(By.name("contentArray[1]"));
 		impression.clear();
@@ -268,7 +337,13 @@ public class Case09 {
 		reportSubmit.click();
 
 		//表示されたエラー情報が正しいかを確認
-		//エラー情報が出ていない
+		WebElement goalAttainmentLevelErrorMessage = webDriver
+				.findElement(By.xpath("//p/span[text()='* 目標の達成度は半角数字で入力してください。']"));
+		assertEquals("* 目標の達成度は半角数字で入力してください。", goalAttainmentLevelErrorMessage.getText());
+
+		WebElement impressionErrorMessage = webDriver
+				.findElement(By.xpath("//p/span[text()='* 所感は必須です。']"));
+		assertEquals("* 所感は必須です。", impressionErrorMessage.getText());
 
 		//「所感」の項目が表示されるように画面をスクロールする
 		scrollBy("1000");
@@ -288,9 +363,22 @@ public class Case09 {
 	void test10() throws Exception {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
-		//週報の「詳細」ボタンを押下する(上から4番目の「修正する」ボタンを押す)
-		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='修正する']"));
-		detailButtons.get(3).click();
+
+		//テーブルの全行を取得
+		WebElement table = webDriver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+		//週報の「詳細」ボタンを押下する
+		for (WebElement row : rows) {
+			WebElement exam = row.findElement(By.xpath("//td[text()='週報【デモ】']"));
+			String examText = exam.getText().trim();
+
+			if (examText.equals("週報【デモ】")) {
+				WebElement detailButton = row.findElement(By.xpath("//input[@value='修正する']"));
+				detailButton.click();
+				break;
+			}
+		}
 
 		//「一週間の振り返り」の項目に2001文字以上の文章を入力する
 		WebElement weeklyReview = webDriver.findElement(By.name("contentArray[2]"));
@@ -338,7 +426,9 @@ public class Case09 {
 		scrollTo("2000");
 
 		//表示されたエラー情報が正しいかを確認
-		//エラー情報が出ていない
+		WebElement errorMessage = webDriver
+				.findElement(By.xpath("//p/span[text()='* 一週間の振り返りの長さが最大値(2000)を超えています。']"));
+		assertEquals("* 一週間の振り返りの長さが最大値(2000)を超えています。", errorMessage.getText());
 
 		//画面をキャプチャして保存する
 		getEvidence(new Object() {

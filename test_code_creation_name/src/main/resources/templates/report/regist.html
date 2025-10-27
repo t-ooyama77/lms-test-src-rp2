@@ -59,6 +59,10 @@
 						<div class="col-lg-10">
 							<textarea class="form-control" rows="3" th:id="|content_${stat.index}|" th:name="|contentArray[${stat.index}]|" 
 								th:errorclass="errorInput">[[*{contentArray[__${stat.index}__]}]]</textarea>
+							<p class="help-inline error"
+								th:if="${#fields.hasErrors('contentArray[' + stat.index + ']')}">
+								<span th:errors="*{contentArray[__${stat.index}__]}"></span>
+							</p>
 						</div>
 					</div>
 				</fieldset>

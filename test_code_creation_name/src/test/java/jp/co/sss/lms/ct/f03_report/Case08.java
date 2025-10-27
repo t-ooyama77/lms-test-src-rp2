@@ -83,6 +83,8 @@ public class Case08 {
 	@Order(3)
 	@DisplayName("テスト03 提出済の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
+		//テーブルの全行を取得
+
 		//週報が提出済みのセクションの「詳細」ボタンを押下する(上から2番目の「詳細」ボタンを押す)
 		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='詳細']"));
 		if (detailButtons.size() > 1) {
@@ -168,9 +170,22 @@ public class Case08 {
 	void test07() throws InterruptedException {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
-		//週報の「詳細」ボタンを押下する(上から4番目の「詳細」ボタンを押す)
-		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='詳細']"));
-		detailButtons.get(3).click();
+
+		//テーブルの全行を取得
+		WebElement table = webDriver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+		//週報の「詳細」ボタンを押下する
+		for (WebElement row : rows) {
+			WebElement exam = row.findElement(By.xpath("//td[text()='週報【デモ】']"));
+			String examText = exam.getText().trim();
+
+			if (examText.equals("週報【デモ】")) {
+				WebElement detailButton = row.findElement(By.xpath("//input[@value='詳細']"));
+				detailButton.click();
+				break;
+			}
+		}
 
 		//一秒待つ
 		Thread.sleep(1000);
