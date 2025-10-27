@@ -331,9 +331,10 @@ public class Case09 {
 			}
 		}
 
-		//「目標の達成度」の項目を未入力にする
+		//「目標の達成度」の項目に1～10の範囲以外の数値を入力する
 		WebElement goalAttainmentLevel = webDriver.findElement(By.name("contentArray[0]"));
 		goalAttainmentLevel.clear();
+
 		//「所感」の項目を未入力にする
 		WebElement impression = webDriver.findElement(By.name("contentArray[1]"));
 		impression.clear();
@@ -368,8 +369,63 @@ public class Case09 {
 
 	@Test
 	@Order(10)
-	@DisplayName("テスト10 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：所感・一週間の振り返りが2000文字超")
-	void test10() throws Exception {
+	@DisplayName("テスト10 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：所感に2001文字入力")
+	void test10() {
+		//クリックできるように画面をスクロールする
+		scrollTo("1000");
+
+		//テーブルの全行を取得
+		WebElement table = webDriver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+		//週報の「詳細」ボタンを押下する
+		for (WebElement row : rows) {
+			WebElement exam = row.findElement(By.xpath("//td[text()='週報【デモ】']"));
+			String examText = exam.getText().trim();
+
+			if (examText.equals("週報【デモ】")) {
+				WebElement detailButton = row.findElement(By.xpath("//input[@value='修正する']"));
+				detailButton.click();
+				break;
+			}
+		}
+
+		//「所感」の項目に2001文字入力する
+		WebElement impression = webDriver.findElement(By.name("contentArray[1]"));
+		impression.clear();
+		impression.sendKeys(ConstantsMessages.len500);
+		impression.sendKeys(ConstantsMessages.len500);
+		impression.sendKeys(ConstantsMessages.len500);
+		impression.sendKeys(ConstantsMessages.len501);
+
+		//クリックできるように画面をスクロールする
+		scrollTo("500");
+
+		//「提出する」ボタンをクリック
+		WebElement reportSubmit = webDriver.findElement(By.className("btn-primary"));
+		reportSubmit.click();
+
+		//表示されたエラー情報が正しいかを確認
+		WebElement impressionErrorMessage = webDriver
+				.findElement(By.xpath("//p/span[text()='* 所感の長さが最大値(2000)を超えています。']"));
+		assertEquals("* 所感の長さが最大値(2000)を超えています。", impressionErrorMessage.getText());
+
+		//「所感」の項目が表示されるように画面をスクロールする
+		scrollBy("1000");
+
+		//画面をキャプチャして保存する
+		getEvidence(new Object() {
+		});
+
+		//ユーザー詳細画面に戻る
+		webDriver.navigate().back();
+		webDriver.navigate().back();
+	}
+
+	@Test
+	@Order(11)
+	@DisplayName("テスト11 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：所感・一週間の振り返りが2000文字超")
+	void test11() throws Exception {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
 
