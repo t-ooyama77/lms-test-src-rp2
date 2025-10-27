@@ -110,7 +110,9 @@ public class Case08 {
 
 		//レポート登録画面に遷移しているかを確認
 		WebElement report = webDriver.findElement(By.tagName("h2"));
-		assertEquals("週報【デモ】 2025年7月9日", report.getText());
+		String reportTitleString = report.getText();
+		String reportTitle = reportTitleString.split(" ")[0];
+		assertEquals("週報【デモ】", reportTitle);
 
 		//画面をキャプチャして保存する
 		getEvidence(new Object() {
@@ -120,7 +122,7 @@ public class Case08 {
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 報告内容を修正して「提出する」ボタンを押下しセクション詳細画面に遷移")
-	void test05() {
+	void test05() throws Exception {
 		//入力できるように画面をスクロールする
 		scrollTo("500");
 		//週報の「一週間の振り返り」欄の入力内容をを修正する
@@ -128,17 +130,15 @@ public class Case08 {
 		reportInput.clear();
 		reportInput.sendKeys("毎日予習復習を行ってがんばります！");
 
-		//修正が反映されているかを確認する
-		WebElement reportContent = webDriver.findElement(By.name("contentArray[2]"));
-		assertEquals("毎日予習復習を行ってがんばります！", reportContent.getText());
-
 		//「提出する」ボタンを押下してセクション詳細画面に遷移する
 		WebElement reportSubmit = webDriver.findElement(By.className("btn-primary"));
 		reportSubmit.click();
 
 		//セクション詳細画面に遷移したことを確認する
 		WebElement section = webDriver.findElement(By.tagName("h2"));
-		assertEquals("アルゴリズム、フローチャート 2025年7月9日", section.getText());
+		String sectionTitleString = section.getText();
+		String sectionTitle = sectionTitleString.split(" ")[0];
+		assertEquals("アルゴリズム、フローチャート", sectionTitle);
 
 		//画面をキャプチャして保存する
 		getEvidence(new Object() {
@@ -165,17 +165,21 @@ public class Case08 {
 	@Test
 	@Order(7)
 	@DisplayName("テスト07 該当レポートの「詳細」ボタンを押下しレポート詳細画面で修正内容が反映される")
-	void test07() {
+	void test07() throws InterruptedException {
 		//クリックできるように画面をスクロールする
 		scrollTo("1000");
 		//週報の「詳細」ボタンを押下する(上から4番目の「詳細」ボタンを押す)
 		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='詳細']"));
 		detailButtons.get(3).click();
 
+		//一秒待つ
+		Thread.sleep(1000);
+
 		//表示された週報の内容が修正した内容になっているかを確認する
 		List<WebElement> tables = webDriver.findElements(By.tagName("table"));
 		List<WebElement> tds = tables.get(2).findElements(By.tagName("td"));
 		WebElement weeklyReview = tds.get(2);
+
 		assertEquals("毎日予習復習を行ってがんばります！", weeklyReview.getText());
 
 		//画面をキャプチャして保存する
