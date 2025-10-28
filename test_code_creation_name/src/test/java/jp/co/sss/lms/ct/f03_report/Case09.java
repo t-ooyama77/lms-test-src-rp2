@@ -124,7 +124,6 @@ public class Case09 {
 		}
 
 		//レポート登録画面に遷移しているかを確認する
-		//レポート登録画面に遷移しているかを確認
 		WebElement report = webDriver.findElement(By.tagName("h2"));
 		String reportTitleString = report.getText();
 		String reportTitle = reportTitleString.split(" ")[0];
