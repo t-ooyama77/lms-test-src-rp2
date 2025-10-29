@@ -83,8 +83,6 @@ public class Case08 {
 	@Order(3)
 	@DisplayName("テスト03 提出済の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
-		//テーブルの全行を取得
-
 		//週報が提出済みのセクションの「詳細」ボタンを押下する(上から2番目の「詳細」ボタンを押す)
 		List<WebElement> detailButtons = webDriver.findElements(By.xpath("//input[@value='詳細']"));
 		if (detailButtons.size() > 1) {
