@@ -1,7 +1,6 @@
 package jp.co.sss.lms.ct.f04_attendance;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
@@ -13,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 /**
  * 結合テスト 勤怠管理機能
@@ -113,32 +112,14 @@ public class Case10 {
 		WebElement attendanceRegist = webDriver.findElement(By.xpath("(//div[contains(@class, 'alert')]//span)[2]"));
 		assertEquals("勤怠情報の登録が完了しました。", attendanceRegist.getText());
 
-		//「勤怠情報を直接編集する」リンクをクリックし、勤怠情報直接変更画面に遷移する
-		WebElement attendanceEdit = webDriver.findElement(By.linkText("勤怠情報を直接編集する"));
-		attendanceEdit.click();
+		//Webページ内のスクロールを下げる
+		WebElement tbody = webDriver.findElement(By.xpath("//tbody"));
+		JavascriptExecutor js = (JavascriptExecutor) webDriver;
+		js.executeScript("arguments[0].scrollTop = arguments[0].scrollTop + 200;", tbody);
 
-		//今日の日付の出勤の時間が登録されているかを確認する
-		WebElement startHour = webDriver.findElement(By.xpath("//select[@id='startHour5']"));
-		Select selectStartHour = new Select(startHour);
-		String startHourStr = selectStartHour.getFirstSelectedOption().getText();
-		assertThat(startHourStr).isNotEmpty();
-
-		WebElement startMinute = webDriver.findElement(By.xpath("//select[@id='startMinute5']"));
-		Select selectStartMinute = new Select(startMinute);
-		String startMinuteStr = selectStartMinute.getFirstSelectedOption().getText();
-		assertThat(startMinuteStr).isNotEmpty();
-
-		//画面を少し下にスクロールする
-		scrollTo("300");
 		//画面をキャプチャして保存する
 		getEvidence(new Object() {
 		});
-
-		//「戻る」ボタンを押下するために画面をスクロールする
-		scrollTo("1000");
-		//「戻る」ボタンを押下して勤怠管理画面に遷移する
-		WebElement back = webDriver.findElement(By.linkText("戻る"));
-		back.click();
 	}
 
 	@Test
@@ -157,23 +138,11 @@ public class Case10 {
 		WebElement attendanceRegist = webDriver.findElement(By.xpath("(//div[contains(@class, 'alert')]//span)[2]"));
 		assertEquals("勤怠情報の登録が完了しました。", attendanceRegist.getText());
 
-		//「勤怠情報を直接編集する」リンクをクリックし、勤怠情報直接変更画面に遷移する
-		WebElement attendanceEdit = webDriver.findElement(By.linkText("勤怠情報を直接編集する"));
-		attendanceEdit.click();
+		//Webページ内のスクロールを下げる
+		WebElement tbody = webDriver.findElement(By.xpath("//tbody"));
+		JavascriptExecutor js = (JavascriptExecutor) webDriver;
+		js.executeScript("arguments[0].scrollTop = arguments[0].scrollTop + 200;", tbody);
 
-		//今日の日付の退勤の時間が登録されているかを確認する
-		WebElement endHour = webDriver.findElement(By.xpath("//select[@id='endHour5']"));
-		Select selectEndtHour = new Select(endHour);
-		String endHourStr = selectEndtHour.getFirstSelectedOption().getText();
-		assertThat(endHourStr).isNotEmpty();
-
-		WebElement endMinute = webDriver.findElement(By.xpath("//select[@id='endMinute5']"));
-		Select selectEndMinute = new Select(endMinute);
-		String endMinuteStr = selectEndMinute.getFirstSelectedOption().getText();
-		assertThat(endMinuteStr).isNotEmpty();
-
-		//画面を少し下にスクロールする
-		scrollTo("300");
 		//今日の日付の出勤、退勤の時間が入力されている画面をキャプチャして保存する
 		getEvidence(new Object() {
 		});

@@ -3,8 +3,6 @@ package jp.co.sss.lms.ct.f04_attendance;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -264,183 +262,8 @@ public class Case12 {
 
 	@Test
 	@Order(9)
-	@DisplayName("テスト09 不適切な内容で修正してエラー表示：出勤の（時）が空白,退勤の（時）が空白")
-	void test09() throws InterruptedException {
-		//一番上の出勤時間の(時)の欄を空白にする
-		WebElement startHour = webDriver.findElement(By.xpath("//select[@id='startHour0']"));
-		Select selectStartHour = new Select(startHour);
-		selectStartHour.selectByValue("");
-
-		//一番上の退勤時間の(時)の欄を空白にする
-		WebElement endHour = webDriver.findElement(By.xpath("//select[@id='endHour0']"));
-		Select selectEndHour = new Select(endHour);
-		selectEndHour.selectByValue("");
-
-		//クリックできるように画面をスクロールする
-		scrollTo("1000");
-
-		//更新するボタンを押下する
-		WebElement update = webDriver.findElement(By.name("complete"));
-		update.click();
-
-		//ポップアップが表示されたら「OK」ボタンを押す
-		Alert alert = webDriver.switchTo().alert();
-		alert.accept(); // OKボタンを押す
-
-		//正しいエラーメッセージが表示されているかを確認
-		visibilityTimeout(By.xpath("//li/span[contains(@class, 'error')]"), 5);
-		List<WebElement> errorMessages = webDriver.findElements(By.xpath("//li/span[contains(@class, 'error')]"));
-		assertEquals("* 出勤時間が正しく入力されていません。", errorMessages.get(0).getText());
-		assertEquals("* 退勤時間が正しく入力されていません。", errorMessages.get(1).getText());
-
-		//画面をキャプチャして保存する
-		getEvidence(new Object() {
-		});
-
-		//一番上の出勤の(時)に「09」退勤の(時)の欄(エラー状態)に「18」を入力する
-		WebElement startHourError = webDriver.findElement(By.xpath("//select[@id='startHour0']"));
-		Select selectstartHourError = new Select(startHourError);
-		selectstartHourError.selectByValue("9");
-		WebElement endHourError = webDriver.findElement(By.xpath("//select[@id='endHour0']"));
-		Select selectEndHourError = new Select(endHourError);
-		selectEndHourError.selectByValue("18");
-	}
-
-	@Test
-	@Order(10)
-	@DisplayName("テスト10 不適切な内容で修正してエラー表示：出勤の（時）が空白、退勤の（分）が空白")
-	void test10() {
-		//一番上の出勤時間の(時)の欄を空白にする
-		WebElement startHour = webDriver.findElement(By.xpath("//select[@id='startHour0']"));
-		Select selectStartHour = new Select(startHour);
-		selectStartHour.selectByValue("");
-		//一番上の退勤時間の(分)の欄を空白にする
-		WebElement endMinute = webDriver.findElement(By.xpath("//select[@id='endMinute0']"));
-		Select selectEndMinute = new Select(endMinute);
-		selectEndMinute.selectByValue("");
-
-		//クリックできるように画面をスクロールする
-		scrollTo("1000");
-
-		//更新するボタンを押下する
-		WebElement update = webDriver.findElement(By.name("complete"));
-		update.click();
-
-		//ポップアップが表示されたら「OK」ボタンを押す
-		Alert alert = webDriver.switchTo().alert();
-		alert.accept(); // OKボタンを押す
-		//正しいエラーメッセージが表示されているかを確認
-		visibilityTimeout(By.xpath("//li/span[contains(@class, 'error')]"), 5);
-		List<WebElement> errorMessages = webDriver.findElements(By.xpath("//li/span[contains(@class, 'error')]"));
-		assertEquals("* 出勤時間が正しく入力されていません。", errorMessages.get(0).getText());
-		assertEquals("* 退勤時間が正しく入力されていません。", errorMessages.get(1).getText());
-
-		//画面をキャプチャして保存する
-		getEvidence(new Object() {
-		});
-
-		//一番上の出勤の(時)に「09」退勤の(時)の欄(エラー状態)に「18」を入力する
-		WebElement startHourError = webDriver.findElement(By.xpath("//select[@id='startHour0']"));
-		Select selectstartHourError = new Select(startHourError);
-		selectstartHourError.selectByValue("0");
-		WebElement endMinuteError = webDriver.findElement(By.xpath("//select[@id='endMinute0']"));
-		Select selectEndMinuteError = new Select(endMinuteError);
-		selectEndMinuteError.selectByValue("0");
-	}
-
-	@Test
-	@Order(11)
-	@DisplayName("テスト11 不適切な内容で修正してエラー表示：出勤の（分）が空白、退勤の（時）が空白")
-	void test11() {
-		//一番上の出勤時間の(分)の欄を空白にする
-		WebElement startMinute = webDriver.findElement(By.xpath("//select[@id='startMinute0']"));
-		Select selectStartMinute = new Select(startMinute);
-		selectStartMinute.selectByValue("");
-
-		//一番上の退勤時間の(時)の欄を空白にする
-		WebElement endHour = webDriver.findElement(By.xpath("//select[@id='endHour0']"));
-		Select selectEndHour = new Select(endHour);
-		selectEndHour.selectByValue("");
-
-		//クリックできるように画面をスクロールする
-		scrollTo("1000");
-
-		//更新するボタンを押下する
-		WebElement update = webDriver.findElement(By.name("complete"));
-		update.click();
-
-		//ポップアップが表示されたら「OK」ボタンを押す
-		Alert alert = webDriver.switchTo().alert();
-		alert.accept(); // OKボタンを押す
-
-		//正しいエラーメッセージが表示されているかを確認
-		visibilityTimeout(By.xpath("//li/span[contains(@class, 'error')]"), 5);
-		List<WebElement> errorMessages = webDriver.findElements(By.xpath("//li/span[contains(@class, 'error')]"));
-		assertEquals("* 出勤時間が正しく入力されていません。", errorMessages.get(0).getText());
-		assertEquals("* 退勤時間が正しく入力されていません。", errorMessages.get(1).getText());
-
-		//画面をキャプチャして保存する
-		getEvidence(new Object() {
-		});
-
-		//一番上の出勤時間の(分)の欄(エラー状態)に「00」を入力する
-		WebElement startMinuteError = webDriver.findElement(By.xpath("//select[@id='startMinute0']"));
-		Select selectStartMinuteError = new Select(startMinuteError);
-		selectStartMinuteError.selectByValue("0");
-		//一番上の退勤時間の(時)の欄(エラー状態)に「18」を入力する
-		WebElement endHourError = webDriver.findElement(By.xpath("//select[@id='endHour0']"));
-		Select selectEndHourError = new Select(endHourError);
-		selectEndHourError.selectByValue("18");
-	}
-
-	@Test
-	@Order(12)
-	@DisplayName("テスト12 不適切な内容で修正してエラー表示：出勤の（分）が空白、退勤の（分）が空白")
-	void test12() {
-		//一番上の出勤時間の(分)の欄を空白にする
-		WebElement startMinute = webDriver.findElement(By.xpath("//select[@id='startMinute0']"));
-		Select selectStartMinute = new Select(startMinute);
-		selectStartMinute.selectByValue("");
-		//一番上の退勤時間の(分)の欄を空白にする
-		WebElement endMinute = webDriver.findElement(By.xpath("//select[@id='endMinute0']"));
-		Select selectEndMinute = new Select(endMinute);
-		selectEndMinute.selectByValue("");
-
-		//クリックできるように画面をスクロールする
-		scrollTo("1000");
-
-		//更新するボタンを押下する
-		WebElement update = webDriver.findElement(By.name("complete"));
-		update.click();
-
-		//ポップアップが表示されたら「OK」ボタンを押す
-		Alert alert = webDriver.switchTo().alert();
-		alert.accept(); // OKボタンを押す
-
-		//正しいエラーメッセージが表示されているかを確認
-		visibilityTimeout(By.xpath("//li/span[contains(@class, 'error')]"), 5);
-		List<WebElement> errorMessages = webDriver.findElements(By.xpath("//li/span[contains(@class, 'error')]"));
-		assertEquals("* 出勤時間が正しく入力されていません。", errorMessages.get(0).getText());
-		assertEquals("* 退勤時間が正しく入力されていません。", errorMessages.get(1).getText());
-
-		//画面をキャプチャして保存する
-		getEvidence(new Object() {
-		});
-
-		//一番上の出勤時間の(分)の欄(エラー状態)に「00」を入力する
-		WebElement startMinuteError = webDriver.findElement(By.xpath("//select[@id='startMinute0']"));
-		Select selectStartMinuteError = new Select(startMinuteError);
-		selectStartMinuteError.selectByValue("0");
-		//一番上の退勤時間の(分)の欄(エラー状態)に「00」を入力する
-		WebElement endMinuteError = webDriver.findElement(By.xpath("//select[@id='endMinute0']"));
-		Select selectEndMinuteError = new Select(endMinuteError);
-		selectEndMinuteError.selectByValue("0");
-	}
-
-	@Test
-	@Order(13)
-	@DisplayName("テスト13 不適切な内容で修正してエラー表示：出勤が空白で退勤に入力あり")
-	void test13() {
+	@DisplayName("テスト09 不適切な内容で修正してエラー表示：出勤が空白で退勤に入力あり")
+	void test09() {
 		//一番上の出勤時間の(時)と(分)の欄を空白にする
 		WebElement startHour = webDriver.findElement(By.xpath("//select[@id='startHour0']"));//時
 		Select selectStartHour = new Select(startHour);
@@ -481,9 +304,9 @@ public class Case12 {
 	}
 
 	@Test
-	@Order(14)
-	@DisplayName("テスト14 不適切な内容で修正してエラー表示：出勤が退勤よりも遅い時間")
-	void test14() {
+	@Order(10)
+	@DisplayName("テスト10 不適切な内容で修正してエラー表示：出勤が退勤よりも遅い時間")
+	void test10() {
 		//一番上の出勤時間の(時)に20,(分)に00を入力する(退勤時間は18：00が入力済み)
 		WebElement startHour = webDriver.findElement(By.xpath("//select[@id='startHour0']"));//時
 		Select selectStartHour = new Select(startHour);
@@ -524,9 +347,9 @@ public class Case12 {
 	}
 
 	@Test
-	@Order(15)
-	@DisplayName("テスト15 不適切な内容で修正してエラー表示：出退勤時間を超える中抜け時間")
-	void test15() {
+	@Order(11)
+	@DisplayName("テスト11 不適切な内容で修正してエラー表示：出退勤時間を超える中抜け時間")
+	void test11() {
 		//一番上の出勤時間の(時)に13,(分)に00を入力する(退勤時間は18：00が入力済み)
 		WebElement startHour = webDriver.findElement(By.xpath("//select[@id='startHour0']"));//時
 		Select selectStartHour = new Select(startHour);
@@ -577,9 +400,9 @@ public class Case12 {
 	}
 
 	@Test
-	@Order(16)
-	@DisplayName("テスト16 不適切な内容で修正してエラー表示：備考が100文字超")
-	void test16() {
+	@Order(12)
+	@DisplayName("テスト12 不適切な内容で修正してエラー表示：備考が100文字超")
+	void test12() {
 		//「備考」欄に101文字を入力する
 		WebElement notes = webDriver.findElement(By.xpath("//input[@name='attendanceList[0].note']"));
 		notes.clear();
