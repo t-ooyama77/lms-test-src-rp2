@@ -5,5 +5,6 @@ public class ConstantsMessages {
 	public static final String len500 = "あ".repeat(500);
 	public static final String len501 = "あ".repeat(501);
 	public static final String len101 = "あ".repeat(101);
+	public static final String len21 = "studentA06studentB06C";
 
 }
